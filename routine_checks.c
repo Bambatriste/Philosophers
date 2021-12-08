@@ -34,7 +34,6 @@ int	all_eat(t_philosopher **philosophers)
 	return (1);
 }
 
-/* lock read in philo thread*/
 int	can_continue(t_philosopher *philosoper)
 {
 	if ((*philosoper->one_dead))

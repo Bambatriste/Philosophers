@@ -38,7 +38,7 @@ int	start_threads(t_philosopher **philosophers, int n)
 	pthread_create(&monitor_t, NULL, &main_routine, philosophers);
 	while (i < n)
 	{
-		pthread_detach(philosophers[i]->thread);
+		pthread_join(philosophers[i]->thread, NULL);
 		i++;
 	}
 	pthread_join(monitor_t, NULL);

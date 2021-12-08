@@ -15,13 +15,13 @@
 void	print_action(struct timeval time,
 			t_philosopher *philosopher, char *action)
 {
+	pthread_mutex_lock(philosopher->write_lock);
 	if (!(*philosopher->one_dead))
 	{
-		pthread_mutex_lock(philosopher->write_lock);
 		printf("%08ld %d %s\n",
 			(time.tv_sec * 1000) + (time.tv_usec / 1000), philosopher->id + 1, action);
-		pthread_mutex_unlock(philosopher->write_lock);
 	}
+	pthread_mutex_unlock(philosopher->write_lock);
 }
 
 int	ft_is_space(char c)

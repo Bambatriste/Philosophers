@@ -18,8 +18,14 @@ int	philo_starved(struct timeval time, t_philosopher *philo)
 
 	ret =  0;
 	pthread_mutex_lock(philo->write_lock);
-		if (timetodie - last_time_eat > 0)
-			ret = 1;
+	if ((((time.tv_usec - (philo->last_eat_usec)) / 1000))
+			+ (((time.tv_sec - (philo->last_eat_sec)) * 1000))
+			- philo->time_to_die > 0)
+	{
+		(*philo->one_dead) = 1;
+		printf("%08ld %d %s\n",((time.tv_sec * 1000) +  (time.tv_usec / 1000)), philo->id + 1, DIE);
+		ret = 1;
+	}
 	pthread_mutex_unlock(philo->write_lock);
 	return (ret);
 }
@@ -44,13 +50,8 @@ int	check_philo_death(t_philosopher **philosophers)
 	while (*philosophers)
 	{
 		gettimeofday(&time, NULL);
-		if ((((time.tv_usec - ((*philosophers)->last_eat_usec)) / 1000))
-			+ (((time.tv_sec - ((*philosophers)->last_eat_sec)) * 1000))
-			- (*philosophers)->time_to_die > 0)
+		if (philo_starved(time, *philosophers))
 		{
-			*(*philosophers)->one_dead = 1;
-			printf("%03d %d %s\n", 
-				time.tv_usec / 1000, (*philosophers)->id + 1, DIE);
 			return (1);
 		}
 		philosophers++;

@@ -16,9 +16,9 @@
 
 timestamp in one value (clean)
 lock -> read -> unlock
-no mutex lock at end of main routine
-
-
+while loop for sleep
+parsing for "" and intmax (cap at 200)
+wait time to eat - time to sleep pour ne pas qu ils se piquent la bouffe
 */
 
 static void
@@ -42,7 +42,7 @@ int	main(int ac, char **av)
 	philo_data = init_philo_data(ac, av);
 	fork = init_mutexes(philo_data.nb_philo);
 	rlock = init_mutexes(philo_data.nb_philo);
-	if (!fork)
+	if (!fork || !rlock)
 		return (1);
 	pthread_mutex_init(&wlock, NULL);
 	philosophers = init_philosophers(philo_data, fork, &wlock, rlock);
@@ -51,5 +51,6 @@ int	main(int ac, char **av)
 	if (start_threads(philosophers, philo_data.nb_philo) != 0)
 		return (1);
 	free_mutexes(fork, philo_data.nb_philo);
+	free_mutexes(rlock, philo_data.nb_philo);
 	return (0);
 }
