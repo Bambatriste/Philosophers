@@ -6,7 +6,7 @@
 /*   By: aedouard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 15:27:18 by aedouard          #+#    #+#             */
-/*   Updated: 2021/12/09 15:27:28 by aedouard         ###   ########.fr       */
+/*   Updated: 2021/12/09 16:19:25 by aedouard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,13 @@ int	all_eat(t_philosopher **philosophers)
 {
 	while (*philosophers)
 	{
+		pthread_mutex_lock((*philosophers)->read_lock);
 		if ((*philosophers)->eat_left != 0)
+		{
+			pthread_mutex_unlock((*philosophers)->read_lock);
 			return (0);
+		}
+		pthread_mutex_unlock((*philosophers)->read_lock);
 		philosophers++;
 	}
 	return (1);
@@ -48,6 +53,5 @@ int	can_continue(t_philosopher *philosoper)
 		return (0);
 	}
 	pthread_mutex_unlock(philosoper->write_lock);
-
 	return (1);
 }

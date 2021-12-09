@@ -80,11 +80,10 @@ t_philosopher	**init_philosophers(t_philo_data data, pthread_mutex_t **fork,
 void			init_timer(t_philosopher **philosophers);
 void			*philo_routine(void *arg);
 void			*main_routine(void *arg);
-void			print_action(struct timeval time,
-					t_philosopher *philosopher, char *action);
+void			print_action(t_philosopher *philosopher, char *action);
 void			free_philo(t_philosopher **philosophers);
 int				check_args(int ac, char **av);
 int				ft_atoi_error(long int *ret, char *str);
-void			ft_usleep(long value);
+void			ft_usleep(long value, t_philosopher *philo);
 
 #endif

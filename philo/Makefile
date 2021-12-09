@@ -4,7 +4,8 @@ SRCS = main.c\
 		threads.c\
 		actions.c\
 		routines.c\
-		routine_checks.c
+		routine_checks.c\
+		ft_usleep.c
 
 OBJS = ${SRCS:.c=.o}
 
@@ -12,7 +13,7 @@ NAME = philo
 
 CC = clang
 
-CFLAGS = -Wall -Wextra -Werror -Iincludes -g3 
+CFLAGS = -Wall -Wextra -Werror -Iincludes -g3
 
 .c.o :
 			${CC} ${CFLAGS} -c $< -o ${<:.c=.o}

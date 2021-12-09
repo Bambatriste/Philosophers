@@ -20,34 +20,6 @@ static void
 	free(mutex);
 }
 
-long	get_time(void)
-{
-	struct timeval	tp;
-	long			milliseconds;
-
-	gettimeofday(&tp, NULL);
-	milliseconds = tp.tv_sec * 1000;
-	milliseconds += tp.tv_usec / 1000;
-	return (milliseconds);
-}
-
-void	ft_usleep(long value)
-{
-	long int	start_time;
-	long int	time;
-	long int	n;
-
-	start_time = get_time();
-	time = get_time();
-	n = 2;
-	while (time - start_time - value < 0)
-	{
-		usleep(value / n);
-		time = get_time();
-		n++;
-	}
-}
-
 int	main(int ac, char **av)
 {
 	t_philo_data	philo_data;

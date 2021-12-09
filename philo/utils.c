@@ -6,20 +6,22 @@
 /*   By: aedouard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 15:28:21 by aedouard          #+#    #+#             */
-/*   Updated: 2021/12/08 00:07:00 by aedouard         ###   ########.fr       */
+/*   Updated: 2021/12/09 16:15:35 by aedouard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	print_action(struct timeval time,
-			t_philosopher *philosopher, char *action)
+void	print_action(t_philosopher *philosopher, char *action)
 {
+	struct timeval	time;
 	pthread_mutex_lock(philosopher->write_lock);
 	if (!(*philosopher->one_dead))
 	{
+		gettimeofday(&time, NULL);
 		printf("%08ld %d %s\n",
-			(((time.tv_sec * 1000) + (time.tv_usec / 1000)) - philosopher->start_time), philosopher->id + 1, action);
+			(((time.tv_sec * 1000) + (time.tv_usec / 1000))
+				- philosopher->start_time), philosopher->id + 1, action);
 	}
 	pthread_mutex_unlock(philosopher->write_lock);
 }
