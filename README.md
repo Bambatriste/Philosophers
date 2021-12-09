@@ -1,4 +1,4 @@
-# philov3
+# Philosophers
 42 project introduction to multithreading
 
 This project introduces to threads and mutexes usage in C to solve the dining philosopher problem.
