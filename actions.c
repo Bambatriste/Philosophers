@@ -19,14 +19,14 @@ pthread_mutex_t *fork_to_pick(t_philosopher *philo, int fork_value)
 
 	if(fork_value == LEFT_FORK)
 	{
-		if (philo->id % 2)
+		if (philo->id & 1)
 			fork = philo->left_fork;
 		else
 			fork = philo->right_fork;
 	}
 	else
 	{
-		if (philo->id % 2)
+		if (philo->id & 1)
 			fork = philo->right_fork;
 		else
 			fork = philo->left_fork;
@@ -118,7 +118,7 @@ int	think(t_philosopher *philosopher)
 	}
 	pthread_mutex_unlock(philosopher->write_lock);
 	print_action(current_time, philosopher, THINK);
-	if (philosopher->nb_philo %2)
+	if (philosopher->nb_philo & 1)
 		ft_usleep(philosopher->time_to_eat / 2);
 
 	return (0);
