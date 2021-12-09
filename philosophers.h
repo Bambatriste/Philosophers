@@ -32,8 +32,8 @@ typedef struct philo_data
 	long int	time_to_die;
 	long int	time_to_eat;
 	long int	time_to_sleep;
-	int			min_eat;
-	int			nb_philo;
+	long int			min_eat;
+	long int			nb_philo;
 	int			one_dead;
 	int			*forks;
 }				t_philo_data;
@@ -51,6 +51,7 @@ typedef struct s_philosopher
 	long int		last_eat_usec;
 	long int		time_to_eat;
 	long int		time_to_sleep;
+	long int		start_time;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	int				lf_available;
@@ -72,7 +73,7 @@ int				think(t_philosopher *philo);
 int				all_eat(t_philosopher **philosophers);
 int				ft_atoi(const char *str);
 int				ft_is_only_digits(char *str);
-t_philo_data	init_philo_data(int ac, char **av);
+int				init_philo_data(int ac, char **av, t_philo_data *data);
 pthread_mutex_t	**init_mutexes(int n);
 t_philosopher	**init_philosophers(t_philo_data data, pthread_mutex_t **fork,
 					pthread_mutex_t *wlock, pthread_mutex_t **rlock);
@@ -83,5 +84,7 @@ void			print_action(struct timeval time,
 					t_philosopher *philosopher, char *action);
 void			free_philo(t_philosopher **philosophers);
 int				check_args(int ac, char **av);
+int	ft_atoi_error(long int *ret, char *str);
+void	ft_usleep(long value);
 
 #endif

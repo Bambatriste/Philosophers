@@ -6,7 +6,7 @@
 /*   By: aedouard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 15:27:38 by aedouard          #+#    #+#             */
-/*   Updated: 2021/12/08 13:55:56 by aedouard         ###   ########.fr       */
+/*   Updated: 2021/12/08 19:32:46 by aedouard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,39 @@ int	check_args(int ac, char **av)
 	int	i;
 
 	i = 1;
+	if (ac < 5 || ac > 6)
+		return (0);
 	while (i < ac)
 	{
+		if (!av[i])
+			return (0);
+		if (!av[1][0])
+			return (0);
 		if (!ft_is_only_digits(av[i]))
-			return (-1);
+			return (0);
 		i++;
 	}
 	return (1);
 }
 
-t_philo_data	init_philo_data(int ac, char **av)
+int	init_philo_data(int ac, char **av, t_philo_data	*philo_data)
 {
-	t_philo_data	philo_data;
-	int				i;
-
-	i = 0;
-	philo_data.nb_philo = ft_atoi(av[1]);
-	philo_data.time_to_die = (long int)ft_atoi(av[2]);
-	philo_data.time_to_eat = (long int)ft_atoi(av[3]);
-	philo_data.time_to_sleep = (long int)ft_atoi(av[4]);
-	philo_data.min_eat = -1;
-	philo_data.one_dead = 0;
+	if (!ft_atoi_error(&philo_data->nb_philo, av[1]))
+		return (0);
+	if (!ft_atoi_error(&philo_data->time_to_die, av[2]))
+		return (0);
+	if (!ft_atoi_error(&philo_data->time_to_eat, av[3]))
+		return (0);
+	if (!ft_atoi_error(&philo_data->time_to_sleep, av[4]))
+		return (0);
+	philo_data->min_eat = -1;
+	philo_data->one_dead = 0;
 	if (ac == 6)
-		philo_data.min_eat = ft_atoi(av[5]);
-	return (philo_data);
+	{
+		if (!ft_atoi_error(&philo_data->min_eat, av[5]))
+		return (0);
+	}
+	return (1);
 }
 
 pthread_mutex_t	**init_mutexes(int n)
@@ -82,6 +91,7 @@ void	philo_data_init(t_philosopher *philosopher, t_philo_data data,
 	philosopher->nb_philo = data.nb_philo;
 	philosopher->last_eat_sec = time.tv_sec;
 	philosopher->last_eat_usec = time.tv_usec;
+	philosopher->start_time = (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
 t_philosopher

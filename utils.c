@@ -19,7 +19,7 @@ void	print_action(struct timeval time,
 	if (!(*philosopher->one_dead))
 	{
 		printf("%08ld %d %s\n",
-			(time.tv_sec * 1000) + (time.tv_usec / 1000), philosopher->id + 1, action);
+			(((time.tv_sec * 1000) + (time.tv_usec / 1000)) - philosopher->start_time), philosopher->id + 1, action);
 	}
 	pthread_mutex_unlock(philosopher->write_lock);
 }
@@ -53,15 +53,14 @@ int	ft_is_only_digits(char *str)
 	return (1);
 }
 
-int	ft_atoi(const char *str)
+int	ft_atoi_error(long int *ret, char *str)
 {
 	int	sign;
 	int	i;
-	int	returned_int;
 
 	i = 0;
-	returned_int = 0;
 	sign = 1;
+	*ret = 0;
 	while (ft_is_space(str[i]) && str[i])
 		i++;
 	if (str[i] == '+' || str[i] == '-')
@@ -72,8 +71,10 @@ int	ft_atoi(const char *str)
 	}
 	while (ft_isdigit(str[i]) && (str[i]))
 	{
-		returned_int = returned_int * 10 + str[i] - '0';
+		*ret = *ret * 10 + str[i] - '0';
 		i++;
+		if ((*ret > 214748364 && str[i]) || (*ret == 214748364 && str[i] > '7'))
+			return (0);
 	}
-	return (returned_int * sign);
+	return (1);
 }

@@ -36,9 +36,18 @@ int	all_eat(t_philosopher **philosophers)
 
 int	can_continue(t_philosopher *philosoper)
 {
+	pthread_mutex_lock(philosoper->write_lock);
 	if ((*philosoper->one_dead))
+	{
+		pthread_mutex_unlock(philosoper->write_lock);
 		return (0);
+	}
 	if (philosoper->eat_left == 0)
+	{
+		pthread_mutex_unlock(philosoper->write_lock);
 		return (0);
+	}
+	pthread_mutex_unlock(philosoper->write_lock);
+
 	return (1);
 }
