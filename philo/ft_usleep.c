@@ -38,7 +38,7 @@ void	ft_usleep(long value, t_philosopher *philo)
 		if (*(philo->one_dead))
 		{
 			pthread_mutex_unlock(philo->write_lock);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(philo->write_lock);
 		usleep(value / n);

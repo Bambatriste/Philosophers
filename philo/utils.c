@@ -6,7 +6,7 @@
 /*   By: aedouard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/05 15:28:21 by aedouard          #+#    #+#             */
-/*   Updated: 2021/12/09 16:15:35 by aedouard         ###   ########.fr       */
+/*   Updated: 2021/12/09 19:28:32 by aedouard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	print_action(t_philosopher *philosopher, char *action)
 {
 	struct timeval	time;
+
 	pthread_mutex_lock(philosopher->write_lock);
 	if (!(*philosopher->one_dead))
 	{
